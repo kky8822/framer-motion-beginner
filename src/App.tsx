@@ -18,8 +18,8 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Box = styled(motion.div)`
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  height: 400px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
@@ -27,7 +27,15 @@ const Box = styled(motion.div)`
   justify-content: center;
   align-items: center;
   font-size: 28px;
-  position: absolute;
+  margin-right: 50px;
+`;
+
+const Circle = styled(motion.div)`
+  width: 100px;
+  height: 100px;
+  background-color: #04a3ff;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+  border-radius: 50px;
 `;
 
 const BiggerBox = styled.div`
@@ -58,9 +66,12 @@ const Svg = styled.svg`
   stroke-width: 2;
 `;
 
-const Buttons = styled.button`
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  bottom: 300px;
+  bottom: 100px;
 `;
 
 const svgVariants = {
@@ -72,35 +83,21 @@ const svgVariants = {
 };
 
 function App() {
-  const [visible, setVisible] = useState(1);
-  const [back, setBack] = useState(false);
-  const nextPlease = () => {
-    setBack(false);
-    setVisible((prev) => (prev === 10 ? 10 : prev + 1));
-  };
-  const prevPlease = () => {
-    setBack(true);
-    setVisible((prev) => (prev === 1 ? 1 : prev - 1));
-  };
+  const [click, setClick] = useState(false);
+  const toggleClick = () => setClick((prev) => !prev);
 
   return (
-    <Wrapper>
-      <AnimatePresence exitBeforeEnter custom={back}>
-        <Box
-          custom={back}
-          variants={boxVariants}
-          initial="entry"
-          animate="center"
-          exit="exit"
-          key={visible}
-        >
-          {visible}
-        </Box>
-      </AnimatePresence>
-      <Buttons>
-        <button onClick={nextPlease}>next</button>
-        <button onClick={prevPlease}>prev</button>
-      </Buttons>
+    <Wrapper onClick={toggleClick}>
+      <Box>
+        {!click ? (
+          <Circle layoutId="circle" style={{ borderRadius: 50 }} />
+        ) : null}
+      </Box>
+      <Box>
+        {click ? (
+          <Circle layoutId="circle" style={{ borderRadius: 0 }} />
+        ) : null}
+      </Box>
     </Wrapper>
   );
 }
